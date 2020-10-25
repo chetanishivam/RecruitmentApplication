@@ -1,0 +1,37 @@
+create database recruitment;
+grant all privileges on *.* to 'root'@'localhost';
+
+CREATE TABLE `offer` (
+  `offer_id` int NOT NULL AUTO_INCREMENT,
+  `job_title` varchar(100) DEFAULT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `number_of_application` int DEFAULT NULL,
+  PRIMARY KEY (`offer_id`),
+  UNIQUE KEY `job_title_UNIQUE` (`job_title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `candidate` (
+  `candidate_id` int NOT NULL AUTO_INCREMENT,
+  `candidate_email` varchar(100) NOT NULL,
+  PRIMARY KEY (`candidate_id`),
+  UNIQUE KEY `candidate_email_UNIQUE` (`candidate_email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `candidate` VALUES (1,'user1@gmail.com');
+INSERT INTO `candidate` VALUES (2,'user2@gmail.com');
+INSERT INTO `candidate` VALUES (3,'user3@gmail.com');
+
+CREATE TABLE `application` (
+  `application_id` int NOT NULL AUTO_INCREMENT,
+  `status` varchar(45) NOT NULL,
+  `resume_text` varchar(500) DEFAULT NULL,
+  `offer_id` int NOT NULL,
+  `candidate_id` int NOT NULL,
+  PRIMARY KEY (`application_id`),
+  KEY `fk_offer_id_idx` (`offer_id`),
+  KEY `fk_candidate_id_idx` (`candidate_id`),
+  CONSTRAINT `fk_candidate_id` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`candidate_id`),
+  CONSTRAINT `fk_offer_id` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`offer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
